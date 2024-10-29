@@ -24,6 +24,8 @@ export default class TaskFormComponent {
   private _router = inject(Router);
 
   loading = signal(false);
+  deleteLoading = signal(false);
+  // isEditMode = signal(false);
 
   idTask = input.required<string>();
 
@@ -77,5 +79,24 @@ export default class TaskFormComponent {
     const task = taskSnapshot.data() as Task;
 
     this.form.patchValue(task);
+  }
+
+  async deleteTask() {
+    const id = this.idTask();
+    if (!id) return;
+    try {
+      this.deleteLoading.set(true);
+      await this._taskService.delete(id);
+      toast.success('Task deleted successfully.');
+      this._router.navigateByUrl('/tasks');
+    } catch (error) {
+      toast.error('A problem occurred while deleting the task.');
+    } finally {
+      this.deleteLoading.set(false);
+    }
+  }
+
+  navigateToTasks() {
+    this._router.navigateByUrl('/tasks');
   }
 }

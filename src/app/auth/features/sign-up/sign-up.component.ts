@@ -19,7 +19,7 @@ interface FormSignUp {
 @Component({
   selector: 'app-sign-up',
   standalone: true,
-  imports: [ReactiveFormsModule,RouterLink,GoogleButtonComponent],
+  imports: [ReactiveFormsModule, RouterLink, GoogleButtonComponent],
   templateUrl: './sign-up.component.html',
   styles: ``,
 })
@@ -52,14 +52,11 @@ export default class SignUpComponent {
 
       if (!email || !password) return;
 
-      console.log({ email, password });
-
       await this._authService.signUp({ email, password });
 
-      toast.success('Usuario creado correctamente');
+      toast.success(`Welcome ${email}!`);
 
-      this._router.navigateByUrl('/tasks')
-
+      this._router.navigateByUrl('/tasks');
     } catch (error) {
       toast.error('Error al crear el usuario');
     }
@@ -67,8 +64,8 @@ export default class SignUpComponent {
 
   async submitWithGoogle() {
     try {
-      await this._authService.signInWithGoogle();
-      toast.success('Bienvenido denuevo')
+      const user = await this._authService.signInWithGoogle();
+      toast.success(`Welcome ${user.user?.email}!`);
       this._router.navigateByUrl('/tasks');
     } catch (error) {
       toast.error('Error al iniciar sesión con Google');

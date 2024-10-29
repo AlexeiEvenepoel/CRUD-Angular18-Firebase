@@ -12,8 +12,12 @@ export class AuthStateService {
     return authState(this._auth);
   }
 
+  get currentUser() {
+    // console.log('getAuth()', getAuth());
+    return getAuth().currentUser;
+  }
+
   logOut() {
     return signOut(this._auth);
   }
-  
 }

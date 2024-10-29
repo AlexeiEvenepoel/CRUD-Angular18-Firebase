@@ -1,5 +1,10 @@
 import { Component, inject } from '@angular/core';
-import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { toast } from 'ngx-sonner';
 import { AuthService } from '../../data-access/auth.service';
@@ -14,7 +19,7 @@ export interface FormSignIn {
 @Component({
   selector: 'app-sign-in',
   standalone: true,
-  imports: [ReactiveFormsModule,RouterLink,GoogleButtonComponent],
+  imports: [ReactiveFormsModule, RouterLink, GoogleButtonComponent],
   templateUrl: './sign-in.component.html',
   styles: ``,
 })
@@ -47,11 +52,9 @@ export default class SignInComponent {
 
       if (!email || !password) return;
 
-      console.log({ email, password });
-
       await this._authService.signIn({ email, password });
 
-      toast.success('Hola nuevamente!');
+      toast.success(`Welcome ${email}!`);
 
       this._router.navigateByUrl('/tasks');
     } catch (error) {
@@ -61,13 +64,11 @@ export default class SignInComponent {
 
   async submitWithGoogle() {
     try {
-      await this._authService.signInWithGoogle();
-      toast.success('Bienvenido denuevo')
+      const user = await this._authService.signInWithGoogle();
+      toast.success(`Welcome ${user.user?.email}!`);
       this._router.navigateByUrl('/tasks');
     } catch (error) {
       toast.error('Error al iniciar sesión con Google');
     }
   }
-
-  
 }

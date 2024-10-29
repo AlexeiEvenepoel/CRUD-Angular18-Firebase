@@ -6,24 +6,17 @@ import { AuthStateService } from '../data-access/auth-state.service';
   selector: 'app-layout',
   standalone: true,
   imports: [RouterModule],
-  // templateUrl: './layout.component.html',
-  template: `<header class="h-[80px] mb-8 w-full max-w-screen-lg mx-auto px-4">
-      <nav class="flex items-center justify-between h-full">
-        <a class="text-2xl font-bold" routerLink="/tasks">Ng Task</a>
-        <button
-          type="button"
-          class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
-        
-          (click)="logOut()">Logout
-        </button>
-      </nav>
-    </header>
-    <router-outlet />`,
+  templateUrl: './layout.component.html',
+  // template: `./layout.component.html`,
 })
 export default class LayoutComponent {
   private _authState = inject(AuthStateService);
   private _router = inject(Router);
   // 13316
+
+  get currentEmail() {
+    return this._authState.currentUser?.email || 'Guest';
+  }
 
   async logOut() {
     await this._authState.logOut();

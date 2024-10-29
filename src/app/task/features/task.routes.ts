@@ -13,4 +13,8 @@ export default [
     path: 'edit/:idTask',
     loadComponent: () => import('./task-form/task-form.component'),
   },
+  {
+    path: 'delete/:idTask',
+    loadComponent: () => import('./task-form/task-form.component'),
+  },
 ] as Routes;
